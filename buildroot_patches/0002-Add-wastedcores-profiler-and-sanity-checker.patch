@@ -1,0 +1,60 @@
+From 1b2815dc48d4ac1c22781d6fa6615e6a1a0326fe Mon Sep 17 00:00:00 2001
+From: sonicyang <sonic.tw.tp@gmail.com>
+Date: Sun, 12 Feb 2017 11:39:21 -0800
+Subject: [PATCH 2/2] Add wastedcores profiler and sanity checker
+
+---
+ package/Config.in                  |  1 +
+ package/wastedcores/Config.in      |  4 ++++
+ package/wastedcores/wastedcores.mk | 16 ++++++++++++++++
+ 3 files changed, 21 insertions(+)
+ create mode 100644 package/wastedcores/Config.in
+ create mode 100644 package/wastedcores/wastedcores.mk
+
+diff --git a/package/Config.in b/package/Config.in
+index e5e7594..e3d60b7 100644
+--- a/package/Config.in
++++ b/package/Config.in
+@@ -1771,6 +1771,7 @@ endmenu
+ 
+ menu "wastedcores"
+ 	source "package/systemtap/Config.in"
++	source "package/wastedcores/Config.in"
+ endmenu
+ 
+ menu "Flight Software"
+diff --git a/package/wastedcores/Config.in b/package/wastedcores/Config.in
+new file mode 100644
+index 0000000..92416bb
+--- /dev/null
++++ b/package/wastedcores/Config.in
+@@ -0,0 +1,4 @@
++config BR2_PACKAGE_WASTEDCORES
++	bool "wastedcores"
++	help
++	  https://github.com/sonicyang/wastedcores
+diff --git a/package/wastedcores/wastedcores.mk b/package/wastedcores/wastedcores.mk
+new file mode 100644
+index 0000000..039d8ae
+--- /dev/null
++++ b/package/wastedcores/wastedcores.mk
+@@ -0,0 +1,16 @@
++################################################################################
++#
++# wastedcores
++#
++################################################################################
++
++WASTEDCORES_VERSION = master
++WASTEDCORES_SITE = git@github.com:sonicyang/wastedcores.git
++WASTEDCORES_SITE_METHOD = git
++
++WASTEDCORES_MODULE_SUBDIRS = tools/sanity_checker_4.4/stap_monitor \
++								tools/visualizations_4.4/sched_profiler
++WASTEDCORES_DEPENDENCIES = linux
++
++$(eval $(kernel-module))
++$(eval $(generic-package))
+-- 
+2.7.4
+

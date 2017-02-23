@@ -1,0 +1,44 @@
+From 4bd68ee4bbbdfbbacd219cd6fe20259c30b93b71 Mon Sep 17 00:00:00 2001
+From: sonicyang <sonic.tw.tp@gmail.com>
+Date: Thu, 16 Feb 2017 03:54:20 -0800
+Subject: [PATCH 1/1] Enable wastedcore building with extra profiling
+
+---
+ package/wastedcores/Config.in      | 6 ++++++
+ package/wastedcores/wastedcores.mk | 5 +++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/package/wastedcores/Config.in b/package/wastedcores/Config.in
+index f52660e..92a6c4d 100644
+--- a/package/wastedcores/Config.in
++++ b/package/wastedcores/Config.in
+@@ -15,4 +15,9 @@ config BR2_PACKAGE_WASTEDCORES_MAX_SAMPLE
+ 	help
+         Memory required is 32bytes * Entries Count
+ 
++config BR2_PACKAGE_WASTEDCORES_EXTRA
++   bool "Enable Extra Profiling"
++	help
++        Event 231 is context switching, with data cpu, pid(in 4 byte slots)
++
+ endif
+diff --git a/package/wastedcores/wastedcores.mk b/package/wastedcores/wastedcores.mk
+index 3dd9b87..660e3f7 100644
+--- a/package/wastedcores/wastedcores.mk
++++ b/package/wastedcores/wastedcores.mk
+@@ -8,7 +8,12 @@ WASTEDCORES_VERSION = master
+ WASTEDCORES_SITE = git@github.com:sonicyang/wastedcores.git
+ WASTEDCORES_SITE_METHOD = git
+ 
++ifeq ($(BR2_PACKAGE_WASTEDCORES_EXTRA),y)
++WASTEDCORES_MODULE_MAKE_OPTS = "CFLAGS_sched_profiler.o=-DNUM_CPU=$(BR2_PACKAGE_WASTEDCORES_NUM_CPU) -DMAX_SAMPLE_ENTRIES=$(BR2_PACKAGE_WASTEDCORES_MAX_SAMPLE) -DWITH_SCHEDULING_SAMPLE_EXTRA"
++endif
++ifeq ($(BR2_PACKAGE_WASTEDCORES_EXTRA),n)
+ WASTEDCORES_MODULE_MAKE_OPTS = "CFLAGS_sched_profiler.o=-DNUM_CPU=$(BR2_PACKAGE_WASTEDCORES_NUM_CPU) -DMAX_SAMPLE_ENTRIES=$(BR2_PACKAGE_WASTEDCORES_MAX_SAMPLE)"
++endif
+ 
+ WASTEDCORES_MODULE_SUBDIRS = tools/sanity_checker_4.1/stap_monitor \
+ 								tools/visualizations_4.1/sched_profiler
+-- 
+2.7.4
+

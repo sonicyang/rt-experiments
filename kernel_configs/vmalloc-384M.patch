@@ -1,0 +1,25 @@
+From 3eb59cc0119edf3ce4689272a40eda0b27203f62 Mon Sep 17 00:00:00 2001
+From: sonicyang <sonic.tw.tp@gmail.com>
+Date: Wed, 15 Feb 2017 11:39:49 -0800
+Subject: [PATCH 1/1] Set Socfpga mmcboot kernel args's vmalloc=384M
+
+---
+ include/configs/socfpga_common.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/socfpga_common.h b/include/configs/socfpga_common.h
+index 6d1424a..58bb047 100644
+--- a/include/configs/socfpga_common.h
++++ b/include/configs/socfpga_common.h
+@@ -204,7 +204,7 @@
+ 		"${mmcloadcmd} mmc 0:${mmcloadpart} ${loadaddr} ${bootimage};" \
+ 		"${mmcloadcmd} mmc 0:${mmcloadpart} ${fdtaddr} ${fdtimage}\0" \
+ 	"mmcboot=setenv bootargs " CONFIG_BOOTARGS \
+-		" root=${mmcroot} rw rootwait;" \
++		" root=${mmcroot} rw rootwait vmalloc=384M;" \
+ 		"bootz ${loadaddr} - ${fdtaddr}\0" \
+ 	"netboot=dhcp ${bootimage} ; " \
+ 		"tftp ${fdtaddr} ${fdtimage} ; run ramboot\0" \
+-- 
+2.7.4
+

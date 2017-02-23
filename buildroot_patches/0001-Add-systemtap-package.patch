@@ -1,0 +1,64 @@
+From c4519f6adee1fd418a68328fd9a6b1d3cf63875d Mon Sep 17 00:00:00 2001
+From: sonicyang <sonic.tw.tp@gmail.com>
+Date: Sun, 12 Feb 2017 11:38:54 -0800
+Subject: [PATCH 1/2] Add systemtap package
+
+---
+ package/Config.in              |  4 ++++
+ package/systemtap/Config.in    |  8 ++++++++
+ package/systemtap/systemtap.mk | 15 +++++++++++++++
+ 3 files changed, 27 insertions(+)
+ create mode 100644 package/systemtap/Config.in
+ create mode 100644 package/systemtap/systemtap.mk
+
+diff --git a/package/Config.in b/package/Config.in
+index 54d46bd..e5e7594 100644
+--- a/package/Config.in
++++ b/package/Config.in
+@@ -1769,4 +1769,8 @@ menu "Text editors and viewers"
+ 	source "package/vim/Config.in"
+ endmenu
+ 
++menu "wastedcores"
++	source "package/systemtap/Config.in"
++endmenu
++
+ endmenu
+diff --git a/package/systemtap/Config.in b/package/systemtap/Config.in
+new file mode 100644
+index 0000000..d64a49c
+--- /dev/null
++++ b/package/systemtap/Config.in
+@@ -0,0 +1,8 @@
++config BR2_PACKAGE_SYSTEMTAP
++	bool "systemtap"
++    select BR2_PACKAGE_ELFUTILS
++	help
++	  SystemTap Package
++
++	  https://sourceware.org/systemtap/wiki
++
+diff --git a/package/systemtap/systemtap.mk b/package/systemtap/systemtap.mk
+new file mode 100644
+index 0000000..8a819d8
+--- /dev/null
++++ b/package/systemtap/systemtap.mk
+@@ -0,0 +1,15 @@
++################################################################################
++#
++# systemtap
++#
++################################################################################
++
++SYSTEMTAP_VERSION = master
++SYSTEMTAP_SITE = git://sourceware.org/git/systemtap.git
++SYSTEMTAP_SITE_METHOD = git
++
++SYSTEMTAP_DEPENDENCIES = elfutils
++
++SYSTEMTAP_CONF_OPTS += 
++
++$(eval $(autotools-package))
+-- 
+2.7.4
+

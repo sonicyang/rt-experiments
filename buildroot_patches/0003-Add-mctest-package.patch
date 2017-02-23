@@ -1,0 +1,77 @@
+From 8120bcf7a7441dfb4c44c40527b873d16b2eee5e Mon Sep 17 00:00:00 2001
+From: sonicyang <sonic.tw.tp@gmail.com>
+Date: Mon, 13 Feb 2017 09:04:47 -0800
+Subject: [PATCH 1/1] Add mctest package
+
+---
+ package/Config.in        |  1 +
+ package/mctest/Config.in |  4 ++++
+ package/mctest/mctest.mk | 33 +++++++++++++++++++++++++++++++++
+ 3 files changed, 38 insertions(+)
+ create mode 100644 package/mctest/Config.in
+ create mode 100644 package/mctest/mctest.mk
+
+diff --git a/package/Config.in b/package/Config.in
+index e3d60b7..9922e80 100644
+--- a/package/Config.in
++++ b/package/Config.in
+@@ -1772,6 +1772,7 @@ endmenu
+ menu "wastedcores"
+ 	source "package/systemtap/Config.in"
+ 	source "package/wastedcores/Config.in"
++	source "package/mctest/Config.in"
+ endmenu
+ 
+ menu "Flight Software"
+diff --git a/package/mctest/Config.in b/package/mctest/Config.in
+new file mode 100644
+index 0000000..27e09a1
+--- /dev/null
++++ b/package/mctest/Config.in
+@@ -0,0 +1,4 @@
++config BR2_PACKAGE_MCTEST
++	bool "mctest"
++	help
++	  https://github.com/sonicyang/mctest
+diff --git a/package/mctest/mctest.mk b/package/mctest/mctest.mk
+new file mode 100644
+index 0000000..c64bc77
+--- /dev/null
++++ b/package/mctest/mctest.mk
+@@ -0,0 +1,33 @@
++################################################################################
++#
++# mctest
++#
++################################################################################
++
++MCTEST_VERSION = master
++MCTEST_SITE = git@github.com:sonicyang/mctest.git
++MCTEST_SITE_METHOD = git
++
++MCTEST_DEPENDENCIES = linux
++
++ifeq ($(BR2_arm),y)
++	MCTEST_ARCH=arm
++endif
++
++ifeq ($(BR2_x86_64),y)
++	MCTEST_ARCH=x86
++endif
++
++define MCTEST_BUILD_CMDS
++	cd $(@D); $(TARGET_MAKE_ENV) ARCH=$(MCTEST_ARCH) TARGET=user CROSS_COMPILE=$(TARGET_CROSS) $(MAKE)
++	cd $(@D); $(TARGET_MAKE_ENV) KDIR=$(LINUX_DIR) ARCH=$(MCTEST_ARCH) TARGET=kmod CROSS_COMPILE=$(TARGET_CROSS) $(MAKE)
++endef
++
++define MCTEST_INSTALL_TARGET_CMDS
++	$(INSTALL) $(@D)/build/user/drivers/mctest $(TARGET_DIR)/root/
++	$(INSTALL) $(@D)/build/kmod/drivers/mctest.ko $(TARGET_DIR)/root/
++	$(INSTALL) $(@D)/README $(TARGET_DIR)/root/MCTEST.README
++endef
++
++
++$(eval $(generic-package))
+-- 
+2.7.4
+

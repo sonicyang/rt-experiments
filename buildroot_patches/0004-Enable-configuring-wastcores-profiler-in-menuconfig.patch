@@ -1,0 +1,48 @@
+From ebade6d0e3961e793f8b5846b08771355b2dec9f Mon Sep 17 00:00:00 2001
+From: sonicyang <sonic.tw.tp@gmail.com>
+Date: Wed, 15 Feb 2017 10:40:15 -0800
+Subject: [PATCH 1/1] Enable configing wastcores profiler in menuconfig
+
+---
+ package/wastedcores/Config.in      | 14 ++++++++++++++
+ package/wastedcores/wastedcores.mk |  2 ++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/package/wastedcores/Config.in b/package/wastedcores/Config.in
+index 92416bb..f52660e 100644
+--- a/package/wastedcores/Config.in
++++ b/package/wastedcores/Config.in
+@@ -2,3 +2,17 @@ config BR2_PACKAGE_WASTEDCORES
+ 	bool "wastedcores"
+ 	help
+ 	  https://github.com/sonicyang/wastedcores
++
++if BR2_PACKAGE_WASTEDCORES
++
++config BR2_PACKAGE_WASTEDCORES_NUM_CPU
++    default 4
++	string "Target CPU count"
++
++config BR2_PACKAGE_WASTEDCORES_MAX_SAMPLE
++    default 100000000
++	string "Max Entries"
++	help
++        Memory required is 32bytes * Entries Count
++
++endif
+diff --git a/package/wastedcores/wastedcores.mk b/package/wastedcores/wastedcores.mk
+index 039d8ae..3dd9b87 100644
+--- a/package/wastedcores/wastedcores.mk
++++ b/package/wastedcores/wastedcores.mk
+@@ -8,6 +8,8 @@ WASTEDCORES_VERSION = master
+ WASTEDCORES_SITE = git@github.com:sonicyang/wastedcores.git
+ WASTEDCORES_SITE_METHOD = git
+ 
++WASTEDCORES_MODULE_MAKE_OPTS = "CFLAGS_sched_profiler.o=-DNUM_CPU=$(BR2_PACKAGE_WASTEDCORES_NUM_CPU) -DMAX_SAMPLE_ENTRIES=$(BR2_PACKAGE_WASTEDCORES_MAX_SAMPLE)"
++
+ WASTEDCORES_MODULE_SUBDIRS = tools/sanity_checker_4.1/stap_monitor \
+ 								tools/visualizations_4.1/sched_profiler
+ WASTEDCORES_DEPENDENCIES = linux
+-- 
+2.7.4
+
