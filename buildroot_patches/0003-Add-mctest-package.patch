@@ -22,7 +22,7 @@ index e3d60b7..9922e80 100644
 +	source "package/mctest/Config.in"
  endmenu
  
- menu "Flight Software"
+ endmenu
 diff --git a/package/mctest/Config.in b/package/mctest/Config.in
 new file mode 100644
 index 0000000..27e09a1
