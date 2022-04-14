@@ -22,7 +22,7 @@ index e3d60b7..9922e80 100644
 +	source "package/mctest/Config.in"
  endmenu
  
- menu "Flight Software"
+ endmenu
 diff --git a/package/mctest/Config.in b/package/mctest/Config.in
 new file mode 100644
 index 0000000..27e09a1
@@ -46,8 +46,8 @@ index 0000000..c64bc77
 +################################################################################
 +
 +MCTEST_VERSION = master
-+MCTEST_SITE = git@github.com:sonicyang/mctest.git
-+MCTEST_SITE_METHOD = git
++MCTEST_SOURCE = mctest-$(MCTEST_VERSION).tar.gz
++MCTEST_SITE = http://github.com/sonicyang/mctest/tarball/$(MCTEST_VERSION)
 +
 +MCTEST_DEPENDENCIES = linux
 +

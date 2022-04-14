@@ -40,8 +40,8 @@ index 039d8ae..3dd9b87 100644
  
 +WASTEDCORES_MODULE_MAKE_OPTS = "CFLAGS_sched_profiler.o=-DNUM_CPU=$(BR2_PACKAGE_WASTEDCORES_NUM_CPU) -DMAX_SAMPLE_ENTRIES=$(BR2_PACKAGE_WASTEDCORES_MAX_SAMPLE)"
 +
- WASTEDCORES_MODULE_SUBDIRS = tools/sanity_checker_4.1/stap_monitor \
- 								tools/visualizations_4.1/sched_profiler
+ WASTEDCORES_MODULE_SUBDIRS = tools/sanity_checker_4.4/stap_monitor \
+ 								tools/visualizations_4.4/sched_profiler
  WASTEDCORES_DEPENDENCIES = linux
 -- 
 2.7.4
