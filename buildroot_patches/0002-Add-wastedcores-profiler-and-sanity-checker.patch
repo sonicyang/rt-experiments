@@ -46,8 +46,8 @@ index 0000000..039d8ae
 +################################################################################
 +
 +WASTEDCORES_VERSION = master
-+WASTEDCORES_SITE = git@github.com:sonicyang/wastedcores.git
-+WASTEDCORES_SITE_METHOD = git
++WASTEDCORES_SOURCE = wasredcores-$(WASTEDCORES_VERSION).tar.gz
++WASTEDCORES_SITE = http://github.com/sonicyang/wastedcores/tarball/$(WASTEDCORES_VERSION)
 +
 +WASTEDCORES_MODULE_SUBDIRS = tools/sanity_checker_4.4/stap_monitor \
 +								tools/visualizations_4.4/sched_profiler
